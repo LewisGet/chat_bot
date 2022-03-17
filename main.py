@@ -77,5 +77,27 @@ async def on_message(message):
             game = discord.Game("Kit")
             await client.change_presence(status=discord.Status.idle, activity=game)
 
+        if "飽和轟炸" in message.content:
+            this_message = message.content.split("---")
+
+            if len(this_message) < 4:
+                return True
+
+            this_content = this_message[3]
+            gap_times = int(this_message[2])
+            attack_times = int(this_message[1])
+
+            game = discord.Game("空中支援已到達，盤旋中")
+            await client.change_presence(status=discord.Status.idle, activity=game)
+
+            for i in range(attack_times):
+                time.sleep(gap_times)
+                await message.channel.send("%s %s" % (tag_kevin, this_content))
+                game = discord.Game("已完成 %d 分支 %d 次轟炸" % (attack_times, i))
+                await client.change_presence(status=discord.Status.idle, activity=game)
+
+            game = discord.Game("Kit")
+            await client.change_presence(status=discord.Status.idle, activity=game)
+
 
 client.run(api_token.main_key)
