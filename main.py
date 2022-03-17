@@ -2,6 +2,7 @@ import discord
 import api_token
 import time
 import random
+import os
 
 client = discord.Client()
 
@@ -68,7 +69,10 @@ async def on_message(message):
             await client.change_presence(status=discord.Status.idle, activity=game)
 
             if random.choice([True, False]):
-                await message.channel.send("%s %s" % (tag_kit, this_content))
+                pick_fucksound = random.randint(1, 4)
+                filepath = open(os.path.join("resources", "fuck_sound", "%d.wav" % pick_fucksound), "rb")
+                await message.channel.send("%s" % tag_kit, file=discord.File(filepath))
+
                 game = discord.Game("已完成 %d 轟炸，順手轟炸 kit" % times)
                 await client.change_presence(status=discord.Status.idle, activity=game)
 
