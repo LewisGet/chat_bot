@@ -1,6 +1,7 @@
 import discord
 import api_token
 import time
+import random
 
 client = discord.Client()
 
@@ -50,16 +51,26 @@ async def on_message(message):
     if str(message.author) == "panjojocom#1878":
         if "空對地支援" in message.content:
             this_message = message.content.split("---")
+
+            if len(this_message) < 3:
+                return True
+
+            this_content = this_message[2]
             times = int(this_message[1])
 
             game = discord.Game("空中支援接近中")
             await client.change_presence(status=discord.Status.idle, activity=game)
 
             for i in range(times):
-                await message.channel.send("%s %s" % (tag_kevin, this_message[2]))
+                await message.channel.send("%s %s" % (tag_kevin, this_content))
 
             game = discord.Game("已完成 %d 轟炸" % times)
             await client.change_presence(status=discord.Status.idle, activity=game)
+
+            if random.choice([True, False]):
+                await message.channel.send("%s %s" % (tag_kit, this_content))
+                game = discord.Game("已完成 %d 轟炸，順手轟炸 kit" % times)
+                await client.change_presence(status=discord.Status.idle, activity=game)
 
             time.sleep(3)
 
